@@ -1,4 +1,4 @@
-\1;95;0cimport numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import mplhep
@@ -62,15 +62,18 @@ def pll_scan_plots(fname,
     if ECOND == True:
 
 
-        # frequency list is first row, locking states are all subsequent rows                                                                                                                                                                                                                                                                                    
+        # frequency list is first row, locking states are all subsequent rows                                                                                                                                                                                                                                                                                   \
+                                                                                                                                                                                                                                                                                                                                                                 
         freq=frequencies_used
         lockState=locks
 
-        ## Get autolock cap and frequency                                                                                                                                                                                                                                                                                                                        
+        ## Get autolock cap and frequency                                                                                                                                                                                                                                                                                                                       \
+                                                                                                                                                                                                                                                                                                                                                                 
         autolock_capIndex = allowed_cap_bank_vals.searchsorted(auto_vco)[auto_locks==1]
         autolock_freq     = frequencies_used[auto_locks==1]
 
-        ## Make the plots                                                                                                                                                                                                                                                                                                                                        
+        ## Make the plots                                                                                                                                                                                                                                                                                                                                       \
+                                                                                                                                                                                                                                                                                                                                                                 
         plt.scatter((autolock_freq/scale),autolock_capIndex,color="red",label="Automatic Lock")
 
     plt.legend(handles=handles)
@@ -78,7 +81,4 @@ def pll_scan_plots(fname,
         plt.savefig(outputFileName,dpi=300, facecolor = "w")
     plt.close(fig)
     return fig
-
-
-
 
