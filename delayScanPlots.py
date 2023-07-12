@@ -5,7 +5,9 @@ import matplotlib.colors as mcolors
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
-def delay_scan_plots(fname,dataArray = None,
+
+def delay_scan_plots(fname,
+                     dataArray = None,
                      title='ETx Delay Scan',
                      outputFileName=None,
                      ECOND=False):

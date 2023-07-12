@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import pandas as pd
-
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
@@ -13,61 +11,69 @@ allowed_cap_bank_vals=np.array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9
                                   508, 509, 510, 511])
 
 def pll_scan_plots(fname,
+                   dataArray = None,
+                   lowFreq = None,
+                   highFreq = None,
                    scale=8,
                    title='PLL CapBank Scan',
                    xlim=(35,50),
                    outputFileName=None,
                    ECOND=False):
-    if ECOND==True:
-        ## load the data
-        autolockData = np.genfromtxt(f"./{fname}_autolocks.csv", delimiter=',')
-        data = pd.read_csv(f"./{fname}_locks.csv", header=None)
 
-        # frequency list is first row, locking states are all subsequent rows
-        freq=data.loc[0].values
-        lockState=data.dropna(axis=1).loc[1:].values
+    if dataArray:
+        locks = np.array(dataArray[0]['tests'][0]['metadata']['locks'])
+        auto_vco = dataArray[0]['tests'][1]['metadata']['auto_vco']
+        auto_locks = dataArray[0]['tests'][1]['metadata']['auto_locks']
+        frequencies_used = dataArray[0]['tests'][1]['metadata']['frequencies_used']
+        weights = locks.T.flatten()
 
-        ## Get autolock cap and frequency
-        autolock_capIndex = allowed_cap_bank_vals.searchsorted(autolockData[1])[autolockData[2]==1]
-        autolock_freq     = autolockData[0][autolockData[2]==1]
 
-        ## Make the plots
-        fig,ax=plt.subplots()
-        bins=((np.array(list(freq) + [freq[-1]*2  - freq[-2]]) - (freq[1]-freq[0])/2.)/scale,np.arange(57)-0.5)
-        _x,_y=np.meshgrid(freq/scale,np.arange(56))
-        d=lockState.T.flatten()
-        plt.hist2d(_x.flatten(),
-                   _y.flatten(),
-                   weights=d,
-                   bins=bins,
-                   alpha=d>0,
-                   cmap='Blues',
-                   figure=fig
-                   )
+    else:
+        mainlist=[]
+        with open(f"./{fname}.csv") as f:
+            mainlist = [list(literal_eval(line)) for line in f]
+        pllSettings = np.array(mainlist)[0]
+        weights = pllSettings.T.flatten()
+
+    b,a=np.meshgrid(np.arange(lowFreq,highFreq,(1/scale)),np.arange(56))
+    bins=(np.arange(lowFreq,(highFreq+(1/scale)),(1/scale))-(0.5/scale),np.arange(57)-0.5)
+    fig,ax=plt.subplots()
+    plt.hist2d(b.flatten(),
+               a.flatten(),
+               weights=weights,
+               bins=bins,
+               alpha=d>0,
+               cmap='Blues',
+               figure=fig
+               )
+
+    handles, labels = plt.gca().get_legend_handles_labels()
+    patch = mpatches.Patch(color='#08306b', label='PLL Lock with VCO Override')
+    handles.append(patch)
+    plt.xlabel('Frequency Setting (MHz)', size=32)
+    plt.ylabel('CapBank Select Setting', size=32)
+    plt.title(title)
+    plt.xlim(xlim)
+
+    if ECOND:
+
+        # frequency list is first row, locking states are all subsequent rows                                                                                                                                                                                                                                                                                    
+        freq=frequencies_used
+        lockState=locks
+
+        ## Get autolock cap and frequency                                                                                                                                                                                                                                                                                                                        
+        autolock_capIndex = allowed_cap_bank_vals.searchsorted(auto_vco)[auto_locks==1]
+        autolock_freq     = frequencies_used[auto_locks==1]
+
+        ## Make the plots                                                                                                                                                                                                                                                                                                                                        
         plt.scatter((autolock_freq/scale),autolock_capIndex,color="red",label="Automatic Lock")
 
+    plt.legend(handles=handles)
+    if outputFileName:
+        plt.savefig(outputFileName,dpi=300, facecolor = "w")
+    plt.close(fig)
+    return fig
 
-        handles, labels = plt.gca().get_legend_handles_labels()
-        patch = mpatches.Patch(color='#08306b', label='PLL Lock with VCO Override')
-        handles.append(patch)
-        plt.legend(handles=handles)
-
-        plt.xlabel('Frequency Setting (MHz)', size=32)
-        plt.ylabel('CapBank Select Setting', size=32)
-        plt.title(title)
-        plt.xlim(xlim)
-
-        if outputFileName:
-            plt.savefig(outputFileName,dpi=300, facecolor = "w")
-        plt.close(fig)
-
-        return fig
-    else:
-
-
-        plt.close(fig)
-        return fig
-    
 
 
 
