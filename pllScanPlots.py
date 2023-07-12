@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
