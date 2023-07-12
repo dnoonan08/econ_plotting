@@ -21,6 +21,7 @@ def pll_scan_plots(fname,
                    ECOND=False):
 
 
+
     if dataArray is not None:
 
         locks = np.array(dataArray[0]['tests'][0]['metadata']['locks'])
@@ -36,6 +37,9 @@ def pll_scan_plots(fname,
             mainlist = [list(literal_eval(line)) for line in f]
         pllSettings = np.array(mainlist)[0]
         weights = pllSettings.T.flatten()
+
+
+
 
 
     b,a=np.meshgrid(np.arange(lowFreq,highFreq,(1/scale)),np.arange(56))
@@ -59,6 +63,7 @@ def pll_scan_plots(fname,
     plt.xlim(xlim)
 
 
+
     if ECOND == True:
 
 
@@ -77,14 +82,12 @@ def pll_scan_plots(fname,
         plt.scatter((autolock_freq/scale),autolock_capIndex,color="red",label="Automatic Lock")
 
 
+
     plt.legend(handles=handles)
     if outputFileName:
         plt.savefig(outputFileName,dpi=300, facecolor = "w")
     plt.close(fig)
     return fig
-
-
-
 
 
 
