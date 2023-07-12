@@ -62,24 +62,15 @@ def pll_scan_plots(fname,
 
         return fig
     else:
-        mainlist=[]
-        with open(f"./{fname}.txt") as f:
-            mainlist = [list(literal_eval(line)) for line in f]
-        pllSettings = np.array(mainlist)
-        b,a=np.meshgrid(np.arange(35,44,(1/32)),np.arange(56))
-        plt.hist2d(b.flatten(),a.flatten(),weights=pllSettings.T.flatten(),bins=(np.arange(34,45,(1/32)),np.arange(57)),cmap='Blues')
-        plt.xlabel('Reference Clock Frequency Setting (MHz)', size=32)
-        plt.ylabel('CapBank Select Setting', size=32)
-        handles, labels = plt.gca().get_legend_handles_labels()
-        patch = mpatches.Patch(color='#08306b', label='PLL Lock with VCO Override')
-        handles.append(patch)
-        plt.legend(handles=handles, loc='lower left')
+
         plt.title(title)
         plt.axvline(40)
         plt.rcParams.update({'font.size': 15})
         plt.xlim([35,50])
         if outputFileName:
             plt.savefig(outputFileName,dpi=300, facecolor = "w")
-        plt.figure()
+        plt.close(fig)
+        return fig
+    
 
 
