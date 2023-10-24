@@ -79,7 +79,3 @@ def delay_scan_plots(fname=None,indir=None,boardNum=None,freq=None, ECOND=False)
         plt.ylabel('Delay Select Setting', size=13)
         plt.xlabel('Channel Number', size=13)
         plt.savefig(f'./ECONT_delay_scan_board{boardNum}_{freq}.png',dpi=300, facecolor = "w")
-
-
-
-
