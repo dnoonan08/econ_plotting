@@ -3,37 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import sys
 import matplotlib.colors as mcolors
-import mplhep as hep
-plt.style.use(hep.style.CMS)
-plt.rcParams.update({'font.size': 18})
-import json
-import glob
-
-
-def jsonload(fname):
-    with open(fname) as jsonfile:
-        try:
-            return json.load(jsonfile)
-        except Exception:
-            print(fname)
-            
-def json_phasescan(indir = ""):
-    fdir = f"{indir}"
-    fnames = list(np.sort(glob.glob(f"{fdir}/*.json")))
-    fnames1 = np.array([y.split(".") for y in [x for x in np.array([x.split("/") for x in fnames])[:,-1]]])[:,0]
-    data = [jsonload(fname) for fname in fnames]
-    erx_errcounts = []
-    for i in range(len(data)):
-        for j in range(len(data[i]['tests'])):
-            if 'metadata' in data[i]['tests'][j]:
-                if "test_io.py::test_ePortRXPRBS" in data[i]['tests'][j]['nodeid']:
-                    erx_errcounts.append(data[i]['tests'][j]['metadata']['eRX_errcounts'])
-                    
-    erx_errcounts = np.array(erx_errcounts)
-    return fnames1, erx_errcounts
-
-
-
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
