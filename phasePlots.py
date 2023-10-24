@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
+
 def plot_eRx_phaseScan(_fileName=None,dataArray=None,outputFileName=None,title='eRx Phase Scan'):
     if dataArray is None:
         data=np.load(_fileName)
