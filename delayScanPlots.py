@@ -1,14 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import sys
+
 import matplotlib.colors as mcolors
+
 import pandas as pd
 import mplhep as hep
 plt.style.use(hep.style.CMS)
@@ -16,12 +11,14 @@ plt.rcParams.update({'font.size': 18})
 import json
 import glob
 
+
 def jsonload(fname):
     with open(fname) as jsonfile:
         try:
             return json.load(jsonfile)
         except Exception:
             print(fname)
+
 
 def json_delayscan(indir = ""):
     fdir = f"{indir}"
@@ -77,8 +74,6 @@ def delay_scan_plots(fname=None,indir=None,boardNum=None,freq=None, ECOND=False)
         plt.ylabel('Delay Select Setting', size=13)
         plt.xlabel('Channel Number', size=13)
         plt.savefig(f'./ECONT_delay_scan_board{boardNum}_{freq}.png',dpi=300, facecolor = "w")
-
-
 
 
 
