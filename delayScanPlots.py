@@ -6,7 +6,6 @@ import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
 
-
 def delay_scan_plots(fname = None,
                      dataArray = None,
                      title='ETx Delay Scan',
