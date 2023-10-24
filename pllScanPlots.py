@@ -46,6 +46,7 @@ def pll_scan_plots(fname,
                    )
         plt.scatter((autolock_freq/scale),autolock_capIndex,color="red",label="Automatic Lock")
 
+
         handles, labels = plt.gca().get_legend_handles_labels()
         patch = mpatches.Patch(color='#08306b', label='PLL Lock with VCO Override')
         handles.append(patch)
@@ -63,14 +64,10 @@ def pll_scan_plots(fname,
         return fig
     else:
 
-        plt.title(title)
-        plt.axvline(40)
-        plt.rcParams.update({'font.size': 15})
-        plt.xlim([35,50])
-        if outputFileName:
-            plt.savefig(outputFileName,dpi=300, facecolor = "w")
+
         plt.close(fig)
         return fig
     
+
 
 

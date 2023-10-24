@@ -5,8 +5,6 @@ import matplotlib.colors as mcolors
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
-
-
 def delay_scan_plots(fname,dataArray = None,
                      title='ETx Delay Scan',
                      outputFileName=None,
@@ -16,7 +14,6 @@ def delay_scan_plots(fname,dataArray = None,
         x = data['errorcounts'].flatten()[0]
         y = data['bitcounts'].flatten()[0]
         errorRates = []
-
         for i in range(6):
             errorRates.append(list(np.array(x[i])/np.array(y[i])))
 
