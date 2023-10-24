@@ -1,4 +1,4 @@
-import numpy as np
+Aimport numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import mplhep
@@ -76,11 +76,14 @@ def pll_scan_plots(fname,
                                                                                                                                                                                                                                                                                                                                                                  
         plt.scatter((autolock_freq/scale),autolock_capIndex,color="red",label="Automatic Lock")
 
+
     plt.legend(handles=handles)
     if outputFileName:
         plt.savefig(outputFileName,dpi=300, facecolor = "w")
     plt.close(fig)
     return fig
+
+
 
 
 
