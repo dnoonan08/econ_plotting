@@ -1,7 +1,6 @@
-import numpy as np
+\1;95;0cimport numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
@@ -21,7 +20,9 @@ def pll_scan_plots(fname,
                    outputFileName=None,
                    ECOND=False):
 
-    if dataArray:
+
+    if dataArray is not None:
+
         locks = np.array(dataArray[0]['tests'][0]['metadata']['locks'])
         auto_vco = dataArray[0]['tests'][1]['metadata']['auto_vco']
         auto_locks = dataArray[0]['tests'][1]['metadata']['auto_locks']
@@ -35,6 +36,7 @@ def pll_scan_plots(fname,
             mainlist = [list(literal_eval(line)) for line in f]
         pllSettings = np.array(mainlist)[0]
         weights = pllSettings.T.flatten()
+
 
     b,a=np.meshgrid(np.arange(lowFreq,highFreq,(1/scale)),np.arange(56))
     bins=(np.arange(lowFreq,(highFreq+(1/scale)),(1/scale))-(0.5/scale),np.arange(57)-0.5)
@@ -56,7 +58,9 @@ def pll_scan_plots(fname,
     plt.title(title)
     plt.xlim(xlim)
 
-    if ECOND:
+
+    if ECOND == True:
+
 
         # frequency list is first row, locking states are all subsequent rows                                                                                                                                                                                                                                                                                    
         freq=frequencies_used
