@@ -1,7 +1,6 @@
-Aimport numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
@@ -41,8 +40,6 @@ def pll_scan_plots(fname,
 
 
 
-
-
     b,a=np.meshgrid(np.arange(lowFreq,highFreq,(1/scale)),np.arange(56))
     bins=(np.arange(lowFreq,(highFreq+(1/scale)),(1/scale))-(0.5/scale),np.arange(57)-0.5)
     fig,ax=plt.subplots()
@@ -62,7 +59,6 @@ def pll_scan_plots(fname,
     plt.ylabel('CapBank Select Setting', size=32)
     plt.title(title)
     plt.xlim(xlim)
-
 
 
     if ECOND == True:
