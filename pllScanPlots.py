@@ -65,17 +65,17 @@ def pll_scan_plots(fname,
 
 
         # frequency list is first row, locking states are all subsequent rows                                                                                                                                                                                                                                                                                   \
-                                                                                                                                                                                                                                                                                                                                                                 
+
         freq=frequencies_used
         lockState=locks
 
         ## Get autolock cap and frequency                                                                                                                                                                                                                                                                                                                       \
-                                                                                                                                                                                                                                                                                                                                                                 
+
         autolock_capIndex = allowed_cap_bank_vals.searchsorted(auto_vco)[auto_locks==1]
         autolock_freq     = frequencies_used[auto_locks==1]
 
         ## Make the plots                                                                                                                                                                                                                                                                                                                                       \
-                                                                                                                                                                                                                                                                                                                                                                 
+
         plt.scatter((autolock_freq/scale),autolock_capIndex,color="red",label="Automatic Lock")
 
 
@@ -85,7 +85,3 @@ def pll_scan_plots(fname,
         plt.savefig(outputFileName,dpi=300, facecolor = "w")
     plt.close(fig)
     return fig
-
-
-
-
