@@ -1,38 +1,38 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-
-import matplotlib.colors as mcolors
-
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
 
-def delay_scan_plots(fname,
+def delay_scan_plots(fname = None,
+                     dataArray = None,
                      title='ETx Delay Scan',
                      outputFileName=None,
                      ECOND=False):
+    if dataArray is None:
+        data = np.load(f'./{fname}.npz',allow_pickle=True )
+        x = data['errorcounts'].flatten()[0]
+        y = data['bitcounts'].flatten()[0]
+        errorRates = []
+        for i in range(6):
+            errorRates.append(list(np.array(x[i])/np.array(y[i])))
 
-    data = np.load(f'./{fname}.npz',allow_pickle=True )
-    x = data['errorcounts'].flatten()[0]
-    y = data['bitcounts'].flatten()[0]
-    errorRates = []
-
-    for i in range(6):
-       errorRates.append(list(np.array(x[i])/np.array(y[i])))
-
-    errorRates = np.array(errorRates).T.flatten()
+        errorRates = np.array(errorRates).T.flatten()
+    else:
+        errorRates = dataArray.T.flatten()
 
     if ECOND:
         a,b=np.meshgrid(np.arange(6),np.arange(63))
+        bins = (np.arange(7)-0.5,np.arange(64)-0.5)
     else:
         a,b=np.meshgrid(np.arange(13),np.arange(63))
+        bins = (np.arange(14)-0.5,np.arange(64)-0.5)
 
     fig,ax=plt.subplots()
 
     plt.hist2d(a.flatten(),b.flatten(),
                weights=errorRates,
-               bins=(np.arange(7)-0.5,np.arange(64)-0.5),
+               bins=bins,
                cmap='RdYlBu_r',
                alpha=errorRates>0,
                figure=fig);

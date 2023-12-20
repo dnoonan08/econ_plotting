@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
+
+
 
 def plot_eRx_phaseScan(_fileName=None,dataArray=None,outputFileName=None,title='eRx Phase Scan'):
     if dataArray is None:
@@ -38,3 +38,4 @@ def plot_eRx_phaseScan(_fileName=None,dataArray=None,outputFileName=None,title='
     plt.close(fig)
 
     return fig
+
