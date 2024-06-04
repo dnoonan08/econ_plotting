@@ -7,32 +7,45 @@ import matplotlib.colors as mcolors
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
+import json
 
 def delay_scan_plots(fname,
                      title='ETx Delay Scan',
                      outputFileName=None,
                      ECOND=False):
 
-    data = np.load(f'./{fname}.npz',allow_pickle=True )
-    x = data['errorcounts'].flatten()[0]
-    y = data['bitcounts'].flatten()[0]
-    errorRates = []
+    if 'json' in fname:
+        data = json.load(open(fname))
+        for t in data['tests']:
+            if 'test_eTX_delayscan' in t['nodeid']:
+                x = np.array(t['metadata']['eTX_errcounts'])
+                y = np.array(t['metadata']['eTX_bitcounts'])
+                break
+        errorRates = (x/y).T.flatten()
+        nBins = x.shape[0]
 
-    for i in range(6):
-       errorRates.append(list(np.array(x[i])/np.array(y[i])))
-
-    errorRates = np.array(errorRates).T.flatten()
-
-    if ECOND:
-        a,b=np.meshgrid(np.arange(6),np.arange(63))
     else:
-        a,b=np.meshgrid(np.arange(13),np.arange(63))
+        data = np.load(f'./{fname}.npz',allow_pickle=True )
+        x = data['errorcounts'].flatten()[0]
+        y = data['bitcounts'].flatten()[0]
+        errorRates = []
 
+        for i in range(6):
+            errorRates.append(list(np.array(x[i])/np.array(y[i])))
+
+        errorRates = np.array(errorRates).T.flatten()
+
+        if ECOND:
+            nBins = 6
+        else:
+            nBins = 13
+
+    a,b=np.meshgrid(np.arange(nBins),np.arange(63))
     fig,ax=plt.subplots()
 
     plt.hist2d(a.flatten(),b.flatten(),
                weights=errorRates,
-               bins=(np.arange(7)-0.5,np.arange(64)-0.5),
+               bins=(np.arange(nBins+1)-0.5,np.arange(64)-0.5),
                cmap='RdYlBu_r',
                alpha=errorRates>0,
                figure=fig);

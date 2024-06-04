@@ -5,11 +5,19 @@ import matplotlib.colors as mcolors
 import mplhep
 mplhep.style.use(mplhep.style.CMS)
 
+import json
+
 def plot_eRx_phaseScan(_fileName=None,dataArray=None,outputFileName=None,title='eRx Phase Scan'):
-    if dataArray is None:
-        data=np.load(_fileName)
+    if 'json' in _fileName:
+        data = json.load(open(_fileName))
+        for t in data['tests']:
+            if 'test_ePortRXPRBS[1.2]' in t['nodeid']:
+                data = np.array(t['metadata']['eRX_errcounts'])
     else:
-        data=dataArray
+        if dataArray is None:
+            data=np.load(_fileName)
+        else:
+            data=dataArray
 
     fig,ax=plt.subplots()
 
